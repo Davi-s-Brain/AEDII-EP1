@@ -240,12 +240,40 @@ void vizinhosEmComum(Grafo *g, int v, int *vizinhos) {
 
   for (int i = 0; i < g->numVertices; i++)
     for (int j = 0; j < g->numVertices; j++)
-      if (g->matriz[v][j] == true && g->matriz[i][j] == true)
-        vizinhos[i] = vizinhos[i] + 1;
+      if (g->matriz[v][j] && g->matriz[i][j])
+        vizinhos[i]++;
 }
 
 /* Coeficiente de Jaccard */
-void coeficienteDeJaccard(Grafo *g, int v, float *coeficientes) {}
+void coeficienteDeJaccard(Grafo *g, int v, float *coeficientes) {
+  float numVizinhosIguais;
+  float numVizinhosUnidos;
+  float vizinhosX;
+  float vizinhosY;
+
+  for (int c = 0; c < g->numVertices; c++) coeficientes[c] = 0;
+
+  for (int  i = 0; i < g->numVertices; i++) {
+    numVizinhosIguais = 0;
+    numVizinhosUnidos = 0;
+    vizinhosX = 0;
+    vizinhosY = 0;
+
+    for (int j = 0; j < g->numVertices; j++) {
+      if (g->matriz[v][j] && g->matriz[i][j]) 
+        numVizinhosIguais++;
+      if (g->matriz[v][j]) vizinhosX++;
+      if (g->matriz[i][j]) vizinhosY++;
+    }
+
+    numVizinhosUnidos = vizinhosX + vizinhosY - numVizinhosIguais;
+
+    if (numVizinhosUnidos == 0) coeficientes[i] = -1;
+
+    float coeficienteJC = numVizinhosIguais / numVizinhosUnidos;
+    if (numVizinhosUnidos != 0) coeficientes[i] = (coeficienteJC);
+  }
+}
 
 /* Medida Adamic Adar */
 void AdamicAdar(Grafo *g, int v, float *coeficientes) {
