@@ -251,32 +251,57 @@ void coeficienteDeJaccard(Grafo *g, int v, float *coeficientes) {
   float vizinhosX;
   float vizinhosY;
 
-  for (int c = 0; c < g->numVertices; c++) coeficientes[c] = 0;
+  for (int c = 0; c < g->numVertices; c++)
+    coeficientes[c] = 0;
 
-  for (int  i = 0; i < g->numVertices; i++) {
+  for (int i = 0; i < g->numVertices; i++) {
     numVizinhosIguais = 0;
     numVizinhosUnidos = 0;
     vizinhosX = 0;
     vizinhosY = 0;
 
     for (int j = 0; j < g->numVertices; j++) {
-      if (g->matriz[v][j] && g->matriz[i][j]) 
+      if (g->matriz[v][j] && g->matriz[i][j])
         numVizinhosIguais++;
-      if (g->matriz[v][j]) vizinhosX++;
-      if (g->matriz[i][j]) vizinhosY++;
+      if (g->matriz[v][j])
+        vizinhosX++;
+      if (g->matriz[i][j])
+        vizinhosY++;
     }
 
     numVizinhosUnidos = vizinhosX + vizinhosY - numVizinhosIguais;
 
-    if (numVizinhosUnidos == 0) coeficientes[i] = -1;
+    if (numVizinhosUnidos == 0)
+      coeficientes[i] = -1;
 
     float coeficienteJC = numVizinhosIguais / numVizinhosUnidos;
-    if (numVizinhosUnidos != 0) coeficientes[i] = (coeficienteJC);
+    if (numVizinhosUnidos != 0)
+      coeficientes[i] = (coeficienteJC);
   }
 }
 
 /* Medida Adamic Adar */
 void AdamicAdar(Grafo *g, int v, float *coeficientes) {
+  // Primeiro, pegar o conjunto interseccao dos vizinhos de v e do vertice i
+  // Depois, para cada vizinho nessa interseccao, pegar o numero de vizinhos e
+  // com isso calcular o logaritmo e ir somando com cadaviznho com o logaritmo
+  // calculado Por fim, atribuir o valor do somatorio ao coeficiente de Adamic
+  // Adar
+  int vizinhos[g->numVertices];
+  int numVizinhos[g->numVertices];
+  for (int i = 0; i < g->numVertices; i++) {
+    vizinhos[i] = 0;
+    numVizinhos[i] = 0;
+  }
+
+  for (int i = 0; i < g->numVertices; i++)
+    for (int j = 0; j < g->numVertices; j++)
+      if (g->matriz[v][j] && g->matriz[i][j])
+        vizinhos[i]++;
+  
+  for (int i = 0; i < g->numVertices; i++) {
+    // faz as coisas aqui
+  }
 
   /* Complete o codigo desta funcao */
 }
