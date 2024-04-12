@@ -282,25 +282,32 @@ void coeficienteDeJaccard(Grafo *g, int v, float *coeficientes) {
 
 /* Medida Adamic Adar */
 void AdamicAdar(Grafo *g, int v, float *coeficientes) {
-  // Primeiro, pegar o conjunto interseccao dos vizinhos de v e do vertice i
-  // Depois, para cada vizinho nessa interseccao, pegar o numero de vizinhos e
-  // com isso calcular o logaritmo e ir somando com cadaviznho com o logaritmo
-  // calculado Por fim, atribuir o valor do somatorio ao coeficiente de Adamic
-  // Adar
-  int vizinhos[g->numVertices];
+  // Primeiro, o algoritmo verifica dois vértices, ele compara quais são os
+  // vizinhos em comum entre os dois vértices, e depois, ele verifica a
+  // quantidade de vizinhos dos dois vertices, e ai ele mete um logaritmo
+  // natural na quantidade de vizinhos e soma os dois, colocando na posicao do
+  // array coeficientes
+
   int numVizinhos[g->numVertices];
-  for (int i = 0; i < g->numVertices; i++) {
-    vizinhos[i] = 0;
+  int i, j = 0;
+  double v1, v2 = 0;
+  for (i = 0; i < g->numVertices; i++) {
     numVizinhos[i] = 0;
+    coeficientes[i] = 0;
   }
 
-  for (int i = 0; i < g->numVertices; i++)
-    for (int j = 0; j < g->numVertices; j++)
+  for (i = 0; i < g->numVertices; i++)
+    for (j = 0; j < g->numVertices; j++)
       if (g->matriz[v][j] && g->matriz[i][j])
-        vizinhos[i]++;
-  
-  for (int i = 0; i < g->numVertices; i++) {
-    // faz as coisas aqui
+        numVizinhos[i]++;
+
+  for (i = 0; i < g->numVertices; i++) {
+    if (retornaGrauDoVertice(g, i) != 0)
+      if (numVizinhos[i] != 0) {
+        for(j = 0; g->numVertices; j++) {
+          printf("me perdi");
+        }
+      }
   }
 
   /* Complete o codigo desta funcao */
