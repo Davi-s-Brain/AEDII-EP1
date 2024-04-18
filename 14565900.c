@@ -282,15 +282,9 @@ void coeficienteDeJaccard(Grafo *g, int v, float *coeficientes) {
 
 /* Medida Adamic Adar */
 void AdamicAdar(Grafo *g, int v, float *coeficientes) {
-  // Primeiro, o algoritmo verifica dois vértices, ele compara quais são os
-  // vizinhos em comum entre os dois vértices, e depois, ele verifica a
-  // quantidade de vizinhos dos dois vertices, e ai ele mete um logaritmo
-  // natural na quantidade de vizinhos e soma os dois, colocando na posicao do
-  // array coeficientes
-
   int numVizinhosComum[g->numVertices];
   int vizinhos[g->numVertices];
-  int i, j = 0;
+  int i, j, k, l = 0;
   float coeficienteVizinho = 0;
   for (i = 0; i < g->numVertices; i++) {
     numVizinhosComum[i] = 0;
@@ -298,59 +292,78 @@ void AdamicAdar(Grafo *g, int v, float *coeficientes) {
     vizinhos[i] = 0;
   }
 
-  for (i = 0; i < g->numVertices; i++)
+  for (i = 0; i < g->numVertices; i++) {
     for (j = 0; j < g->numVertices; j++)
-      if (g->matriz[v][j] && g->matriz[i][j])
-        vizinhos[j] = 1;
+      for (k = 0; k < g->numVertices; k++)
+        if (g->matriz[v][k] && g->matriz[i][k])
+          vizinhos[k] = 1;
 
-  for (i = 0; i < g->numVertices; i++)
-    if (retornaGrauDoVertice(g, i) != 0)
-      if (vizinhos[i]) {
-        for (j = 0; j < g->numVertices; j++) {
-          if (g->matriz[i][j])
-            numVizinhosComum[i]++;
+    for (j = 0; j < g->numVertices; j++)
+      if (retornaGrauDoVertice(g, j) == 1) {
+        coeficientes[j] = -1;
+      } else if (vizinhos[j]) {
+        for (k = 0; k < g->numVertices; k++) {
+          if (g->matriz[j][k])
+            numVizinhosComum[j]++;
         }
       }
 
-  // for (i = 0; i < g->numVertices; i++) {
-  //   for (j = 0; j < g->numVertices; j++) {
-  //     if (numVizinhosComum[j] > 0)
-  //       coeficienteVizinho += 1 / log(numVizinhosComum[j]);
-  //     coeficientes[i] = coeficienteVizinho;
-  //   }
-  //   coeficienteVizinho = 0;
-  // }
+    for (j = 0; j < g->numVertices; j++) {
+      if (numVizinhosComum[j] > 0)
+        coeficienteVizinho += 1 / log(numVizinhosComum[j]);
+    }
+    coeficientes[i] = coeficienteVizinho;
+    coeficienteVizinho = 0;
 
-  /* Complete o codigo desta funcao */
+    for (l = 0; l < g->numVertices; l++) {
+      numVizinhosComum[l] = 0;
+      vizinhos[l] = 0;
+    }
+  }
 }
 
 /* Alocacao de Recursos */
 void alocacaoDeRecursos(Grafo *g, int v, float *coeficientes) {
-
+  int i = 0;
+  for (i = 0; i < g->numVertices; i++) {
+    coeficientes[i] = 0;
+  }
   /* Complete o codigo desta funcao */
 }
 
 /* Similaridade Cosseno */
 void similaridadeCosseno(Grafo *g, int v, float *coeficientes) {
-
+  int i = 0;
+  for (i = 0; i < g->numVertices; i++) {
+    coeficientes[i] = 0;
+  }
   /* Complete o codigo desta funcao */
 }
 
 /* Coeficiente de Dice */
 void coeficienteDeDice(Grafo *g, int v, float *coeficientes) {
-
+  int i = 0;
+  for (i = 0; i < g->numVertices; i++) {
+    coeficientes[i] = 0;
+  }
   /* Complete o codigo desta funcao */
 }
 
 /* Hub Promoted Index */
 void HPI(Grafo *g, int v, float *coeficientes) {
-
+  int i = 0;
+  for (i = 0; i < g->numVertices; i++) {
+    coeficientes[i] = 0;
+  }
   /* Complete o codigo desta funcao */
 }
 
 /* Hub Depressed Index */
 void HDI(Grafo *g, int v, float *coeficientes) {
-
+  int i = 0;
+  for (i = 0; i < g->numVertices; i++) {
+    coeficientes[i] = 0;
+  }
   /* Complete o codigo desta funcao */
 }
 
