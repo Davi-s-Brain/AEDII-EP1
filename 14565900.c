@@ -289,26 +289,37 @@ void AdamicAdar(Grafo *g, int v, float *coeficientes) {
   // array coeficientes
 
   int numVizinhosComum[g->numVertices];
+  int vizinhos[g->numVertices];
   int i, j = 0;
-  double v1, v2 = 0;
+  float coeficienteVizinho = 0;
   for (i = 0; i < g->numVertices; i++) {
     numVizinhosComum[i] = 0;
     coeficientes[i] = 0;
+    vizinhos[i] = 0;
   }
 
   for (i = 0; i < g->numVertices; i++)
     for (j = 0; j < g->numVertices; j++)
       if (g->matriz[v][j] && g->matriz[i][j])
-        numVizinhosComum[i]++;
+        vizinhos[j] = 1;
 
-  for (i = 0; i < g->numVertices; i++) {
+  for (i = 0; i < g->numVertices; i++)
     if (retornaGrauDoVertice(g, i) != 0)
-      if (numVizinhosComum[i] != 0) {
-        for(j = 0; g->numVertices; j++) {
-          printf("me perdi");
+      if (vizinhos[i]) {
+        for (j = 0; j < g->numVertices; j++) {
+          if (g->matriz[i][j])
+            numVizinhosComum[i]++;
         }
       }
-  }
+
+  // for (i = 0; i < g->numVertices; i++) {
+  //   for (j = 0; j < g->numVertices; j++) {
+  //     if (numVizinhosComum[j] > 0)
+  //       coeficienteVizinho += 1 / log(numVizinhosComum[j]);
+  //     coeficientes[i] = coeficienteVizinho;
+  //   }
+  //   coeficienteVizinho = 0;
+  // }
 
   /* Complete o codigo desta funcao */
 }
