@@ -282,40 +282,41 @@ void coeficienteDeJaccard(Grafo *g, int v, float *coeficientes) {
 
 /* Medida Adamic Adar */
 void AdamicAdar(Grafo *g, int v, float *coeficientes) {
-  int numVizinhosComum[g->numVertices];
-  int vizinhos[g->numVertices];
+  int n = g->numVertices;
+  int numVizinhosComum[n];
+  int vizinhos[n];
   int i, j, k, l = 0;
   float coeficienteVizinho = 0;
-  for (i = 0; i < g->numVertices; i++) {
+  for (i = 0; i < n; i++) {
     numVizinhosComum[i] = 0;
     coeficientes[i] = 0;
     vizinhos[i] = 0;
   }
 
-  for (i = 0; i < g->numVertices; i++) {
-    for (j = 0; j < g->numVertices; j++)
-      for (k = 0; k < g->numVertices; k++)
+  for (i = 0; i < n; i++) {
+    for (j = 0; j < n; j++)
+      for (k = 0; k < n; k++)
         if (g->matriz[v][k] && g->matriz[i][k])
           vizinhos[k] = 1;
 
-    for (j = 0; j < g->numVertices; j++)
+    for (j = 0; j < n; j++)
       if (retornaGrauDoVertice(g, j) == 1) {
         coeficientes[j] = -1;
       } else if (vizinhos[j]) {
-        for (k = 0; k < g->numVertices; k++) {
+        for (k = 0; k < n; k++) {
           if (g->matriz[j][k])
             numVizinhosComum[j]++;
         }
       }
 
-    for (j = 0; j < g->numVertices; j++) {
+    for (j = 0; j < n; j++) {
       if (numVizinhosComum[j] > 0)
         coeficienteVizinho += 1 / log(numVizinhosComum[j]);
     }
     coeficientes[i] = coeficienteVizinho;
     coeficienteVizinho = 0;
 
-    for (l = 0; l < g->numVertices; l++) {
+    for (l = 0; l < n; l++) {
       numVizinhosComum[l] = 0;
       vizinhos[l] = 0;
     }
