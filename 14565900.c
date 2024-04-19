@@ -311,7 +311,7 @@ void AdamicAdar(Grafo *g, int v, float *coeficientes) {
 
     for (j = 0; j < n; j++) {
       if (numVizinhosComum[j] > 0)
-        coeficienteVizinho += 1 / log(numVizinhosComum[j]);
+        coeficienteVizinho += 1.0 / log(numVizinhosComum[j]);
     }
     coeficientes[i] = coeficienteVizinho;
     coeficienteVizinho = 0;
@@ -325,11 +325,43 @@ void AdamicAdar(Grafo *g, int v, float *coeficientes) {
 
 /* Alocacao de Recursos */
 void alocacaoDeRecursos(Grafo *g, int v, float *coeficientes) {
-  int i = 0;
-  for (i = 0; i < g->numVertices; i++) {
+  int n = g->numVertices;
+  int numVizinhosComum[n];
+  int vizinhos[n];
+  int i, j, k, l = 0;
+  float coeficienteVizinho = 0;
+  for (i = 0; i < n; i++) {
+    numVizinhosComum[i] = 0;
     coeficientes[i] = 0;
+    vizinhos[i] = 0;
   }
-  /* Complete o codigo desta funcao */
+
+  for (i = 0; i < n; i++) {
+    for (j = 0; j < n; j++)
+      for (k = 0; k < n; k++)
+        if (g->matriz[v][k] && g->matriz[i][k])
+          vizinhos[k] = 1;
+
+    for (j = 0; j < n; j++)
+      if (vizinhos[j]) {
+        for (k = 0; k < n; k++) {
+          if (g->matriz[j][k])
+            numVizinhosComum[j]++;
+        }
+      }
+
+    for (j = 0; j < n; j++) {
+      if (numVizinhosComum[j] > 0)
+        coeficienteVizinho += 1.0 / (numVizinhosComum[j]);
+    }
+    coeficientes[i] = coeficienteVizinho;
+    coeficienteVizinho = 0;
+
+    for (l = 0; l < n; l++) {
+      numVizinhosComum[l] = 0;
+      vizinhos[l] = 0;
+    }
+  }  
 }
 
 /* Similaridade Cosseno */
