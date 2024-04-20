@@ -366,9 +366,29 @@ void alocacaoDeRecursos(Grafo *g, int v, float *coeficientes) {
 
 /* Similaridade Cosseno */
 void similaridadeCosseno(Grafo *g, int v, float *coeficientes) {
-  int i = 0;
-  for (i = 0; i < g->numVertices; i++) {
+  int i, j, numY = 0;
+  int numX = 0;
+  float cosseno = 0.0;
+  int n = g->numVertices;
+  int *vizinhosComuns = (int*) malloc(sizeof(int) * n);
+  for (i = 0; i < n; i++) {
     coeficientes[i] = 0;
+    vizinhosComuns[i] = 0;
+  }
+
+  vizinhosEmComum(g, v, vizinhosComuns);
+
+  for(i = 0; i < n; i++) {
+    for(j = 0; j < n; j++) {
+      if(g->matriz[v][j]) numY++;
+      if(g->matriz[i][j]) numX++;
+    }
+    if (sqrt(numX * numY) == 0)
+      coeficientes[i] = -1;
+    else 
+      coeficientes[i] = (float) vizinhosComuns[i] / sqrt(numX * numY);
+    numX = 0;
+    numY = 0;
   }
   /* Complete o codigo desta funcao */
 }
