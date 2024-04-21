@@ -248,7 +248,7 @@ void vizinhosEmComum(Grafo *g, int v, int *vizinhos) {
 
 /* Coeficiente de Jaccard */
 void coeficienteDeJaccard(Grafo *g, int v, float *coeficientes) {
-  float numVizinhosIguais, numVizinhosUnidos, vizinhosY, vizinhosX;
+  float numVizinhosIguais, numVizinhosUnidos, vizinhosY, vizinhosX, coeficienteJC;
   int n = g->numVertices;
 
   for (int c = 0; c < n; c++)
@@ -271,7 +271,7 @@ void coeficienteDeJaccard(Grafo *g, int v, float *coeficientes) {
     if (numVizinhosUnidos == 0)
       coeficientes[i] = -1;
 
-    float coeficienteJC = numVizinhosIguais / numVizinhosUnidos;
+    coeficienteJC = numVizinhosIguais / numVizinhosUnidos;
     if (numVizinhosUnidos != 0)
       coeficientes[i] = (coeficienteJC);
   }
@@ -324,8 +324,7 @@ void AdamicAdar(Grafo *g, int v, float *coeficientes) {
 void alocacaoDeRecursos(Grafo *g, int v, float *coeficientes) {
   int i = 0, j = 0, k = 0, l = 0, n = g->numVertices;
   float coeficienteVizinho = 0;
-  int numVizinhosComum[n];
-  int vizinhos[n];
+  int numVizinhosComum[n], vizinhos[n];
   for (i = 0; i < n; i++) {
     numVizinhosComum[i] = 0;
     coeficientes[i] = 0;
@@ -461,7 +460,7 @@ void HDI(Grafo *g, int v, float *coeficientes) {
       if(g->matriz[v][j]) numY++;
       if(g->matriz[i][j]) numX++;
     }
-    if ((numX == 0 && numY == 0))
+    if (numX == 0 && numY == 0)
       coeficientes[i] = -1;
     else {
       if (numY > numX)
