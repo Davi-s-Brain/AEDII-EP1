@@ -415,11 +415,34 @@ void coeficienteDeDice(Grafo *g, int v, float *coeficientes) {
 
 /* Hub Promoted Index */
 void HPI(Grafo *g, int v, float *coeficientes) {
-  int i = 0;
+  int i = 0, j = 0, numX = 0, numY = 0, menor = 0, n = g->numVertices;
+  int *vizinhosComuns = (int*) malloc(sizeof(int) * n);
+
   for (i = 0; i < g->numVertices; i++) {
     coeficientes[i] = 0;
+    vizinhosComuns[i] = 0;
   }
-  /* Complete o codigo desta funcao */
+
+  vizinhosEmComum(g, v, vizinhosComuns);
+
+  for(i = 0; i < n; i++) {
+    for(j = 0; j < n; j++) {
+      if(g->matriz[v][j]) numY++;
+      if(g->matriz[i][j]) numX++;
+    }
+    if (numX == 0 || numY == 0)
+      coeficientes[i] = -1;
+    else {
+      if (numY < numX)
+        menor = numY;
+      else 
+        menor = numX;
+      
+      coeficientes[i] = (float) vizinhosComuns[i] / menor;
+    }
+
+    numX = 0, numY = 0, menor = 0;
+  }
 }
 
 /* Hub Depressed Index */
