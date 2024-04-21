@@ -235,30 +235,26 @@ void exibeArranjoInteiros(int *arranjo, int n) {
 
 /* Vizinhos em Comum */
 void vizinhosEmComum(Grafo *g, int v, int *vizinhos) {
-  for (int i = 0; i < g->numVertices; i++)
+  int i = 0, j = 0;
+
+  for (i = 0; i < g->numVertices; i++)
     vizinhos[i] = 0;
 
-  for (int i = 0; i < g->numVertices; i++)
-    for (int j = 0; j < g->numVertices; j++)
+  for (i = 0; i < g->numVertices; i++)
+    for (j = 0; j < g->numVertices; j++)
       if (g->matriz[v][j] && g->matriz[i][j])
         vizinhos[i]++;
 }
 
 /* Coeficiente de Jaccard */
 void coeficienteDeJaccard(Grafo *g, int v, float *coeficientes) {
-  float numVizinhosIguais;
-  float numVizinhosUnidos;
-  float vizinhosX;
-  float vizinhosY;
+  float numVizinhosIguais, numVizinhosUnidos, vizinhosY, vizinhosX;
 
   for (int c = 0; c < g->numVertices; c++)
     coeficientes[c] = 0;
 
   for (int i = 0; i < g->numVertices; i++) {
-    numVizinhosIguais = 0;
-    numVizinhosUnidos = 0;
-    vizinhosX = 0;
-    vizinhosY = 0;
+    numVizinhosIguais = 0, numVizinhosUnidos = 0, vizinhosX = 0, vizinhosY = 0;
 
     for (int j = 0; j < g->numVertices; j++) {
       if (g->matriz[v][j] && g->matriz[i][j])
@@ -282,10 +278,9 @@ void coeficienteDeJaccard(Grafo *g, int v, float *coeficientes) {
 
 /* Medida Adamic Adar */
 void AdamicAdar(Grafo *g, int v, float *coeficientes) {
-  int n = g->numVertices;
+  int i = 0, j = 0, k = 0, l = 0, n = g->numVertices;
   int numVizinhosComum[n];
   int vizinhos[n];
-  int i, j, k, l = 0;
   float coeficienteVizinho = 0;
   for (i = 0; i < n; i++) {
     numVizinhosComum[i] = 0;
@@ -327,11 +322,10 @@ void AdamicAdar(Grafo *g, int v, float *coeficientes) {
 
 /* Alocacao de Recursos */
 void alocacaoDeRecursos(Grafo *g, int v, float *coeficientes) {
-  int n = g->numVertices;
+  int i = 0, j = 0, k = 0, l = 0, n = g->numVertices;
+  float coeficienteVizinho = 0;
   int numVizinhosComum[n];
   int vizinhos[n];
-  int i, j, k, l = 0;
-  float coeficienteVizinho = 0;
   for (i = 0; i < n; i++) {
     numVizinhosComum[i] = 0;
     coeficientes[i] = 0;
@@ -368,9 +362,7 @@ void alocacaoDeRecursos(Grafo *g, int v, float *coeficientes) {
 
 /* Similaridade Cosseno */
 void similaridadeCosseno(Grafo *g, int v, float *coeficientes) {
-  int i, j, numY = 0;
-  int numX = 0;
-  float cosseno = 0.0;
+  int i = 0, j = 0, numY = 0, numX = 0;
   int n = g->numVertices;
   int *vizinhosComuns = (int*) malloc(sizeof(int) * n);
   for (i = 0; i < n; i++) {
@@ -392,15 +384,32 @@ void similaridadeCosseno(Grafo *g, int v, float *coeficientes) {
     numX = 0;
     numY = 0;
   }
-  /* Complete o codigo desta funcao */
 }
 
 /* Coeficiente de Dice */
 void coeficienteDeDice(Grafo *g, int v, float *coeficientes) {
-  int i = 0;
+  int i = 0, j = 0, numX = 0, numY = 0, n = g->numVertices;
+  int *vizinhosComuns = (int*) malloc(sizeof(int) * n);
   for (i = 0; i < g->numVertices; i++) {
     coeficientes[i] = 0;
+    vizinhosComuns[i] = 0;
   }
+
+  vizinhosEmComum(g, v, vizinhosComuns);
+
+  for(i = 0; i < n; i++) {
+    for(j = 0; j < n; j++) {
+      if(g->matriz[v][j]) numY++;
+      if(g->matriz[i][j]) numX++;
+    }
+    if (numX + numY == 0)
+      coeficientes[i] = -1;
+    else 
+      coeficientes[i] = (float) 2 * vizinhosComuns[i] / (numX + numY);
+    numX = 0;
+    numY = 0;
+  }
+
   /* Complete o codigo desta funcao */
 }
 
