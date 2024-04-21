@@ -235,13 +235,13 @@ void exibeArranjoInteiros(int *arranjo, int n) {
 
 /* Vizinhos em Comum */
 void vizinhosEmComum(Grafo *g, int v, int *vizinhos) {
-  int i = 0, j = 0;
+  int i = 0, j = 0, n = g->numVertices;
 
-  for (i = 0; i < g->numVertices; i++)
+  for (i = 0; i < n; i++)
     vizinhos[i] = 0;
 
-  for (i = 0; i < g->numVertices; i++)
-    for (j = 0; j < g->numVertices; j++)
+  for (i = 0; i < n; i++)
+    for (j = 0; j < n; j++)
       if (g->matriz[v][j] && g->matriz[i][j])
         vizinhos[i]++;
 }
