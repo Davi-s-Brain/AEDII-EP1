@@ -249,14 +249,15 @@ void vizinhosEmComum(Grafo *g, int v, int *vizinhos) {
 /* Coeficiente de Jaccard */
 void coeficienteDeJaccard(Grafo *g, int v, float *coeficientes) {
   float numVizinhosIguais, numVizinhosUnidos, vizinhosY, vizinhosX;
+  int n = g->numVertices;
 
-  for (int c = 0; c < g->numVertices; c++)
+  for (int c = 0; c < n; c++)
     coeficientes[c] = 0;
 
-  for (int i = 0; i < g->numVertices; i++) {
+  for (int i = 0; i < n; i++) {
     numVizinhosIguais = 0, numVizinhosUnidos = 0, vizinhosX = 0, vizinhosY = 0;
 
-    for (int j = 0; j < g->numVertices; j++) {
+    for (int j = 0; j < n; j++) {
       if (g->matriz[v][j] && g->matriz[i][j])
         numVizinhosIguais++;
       if (g->matriz[v][j])
@@ -362,8 +363,7 @@ void alocacaoDeRecursos(Grafo *g, int v, float *coeficientes) {
 
 /* Similaridade Cosseno */
 void similaridadeCosseno(Grafo *g, int v, float *coeficientes) {
-  int i = 0, j = 0, numY = 0, numX = 0;
-  int n = g->numVertices;
+  int i = 0, j = 0, numY = 0, numX = 0, n = g->numVertices;
   int *vizinhosComuns = (int*) malloc(sizeof(int) * n);
   for (i = 0; i < n; i++) {
     coeficientes[i] = 0;
