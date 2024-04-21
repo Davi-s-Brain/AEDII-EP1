@@ -300,7 +300,7 @@ void AdamicAdar(Grafo *g, int v, float *coeficientes) {
           vizinhos[k] = 1;
 
     for (j = 0; j < n; j++)
-      if (retornaGrauDoVertice(g, j) == 1) {
+      if (numVizinhosComum[j] == 1) {
         coeficientes[j] = -1;
       } else if (vizinhos[j]) {
         for (k = 0; k < n; k++) {
@@ -313,7 +313,9 @@ void AdamicAdar(Grafo *g, int v, float *coeficientes) {
       if (numVizinhosComum[j] > 0)
         coeficienteVizinho += 1.0 / log(numVizinhosComum[j]);
     }
-    coeficientes[i] = coeficienteVizinho;
+    if (coeficienteVizinho == INFINITY) coeficientes[i] = -1;
+    else coeficientes[i] = coeficienteVizinho;
+
     coeficienteVizinho = 0;
 
     for (l = 0; l < n; l++) {
