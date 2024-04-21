@@ -280,8 +280,7 @@ void coeficienteDeJaccard(Grafo *g, int v, float *coeficientes) {
 /* Medida Adamic Adar */
 void AdamicAdar(Grafo *g, int v, float *coeficientes) {
   int i = 0, j = 0, k = 0, l = 0, n = g->numVertices;
-  int numVizinhosComum[n];
-  int vizinhos[n];
+  int numVizinhosComum[n], vizinhos[n];
   float coeficienteVizinho = 0;
   for (i = 0; i < n; i++) {
     numVizinhosComum[i] = 0;
